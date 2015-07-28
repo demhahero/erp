@@ -1,0 +1,25 @@
+﻿@model IEnumerable<MVCempty.Models.product>
+
+@{
+    ViewBag.Title = "Products";
+}
+<h2>Products</h2>
+<a href="/Products/AddProduct">Add new Product</a>
+<table style="border:solid 1px black; width:100%;">
+    
+    @if (Model != null)
+    {
+        foreach (MVCempty.Models.product pro in Model)
+        {
+            <tr>
+                <td>@pro.product_id</td>
+                <td>@pro.name</td>
+                <td>@pro.price</td>
+                <td><a href="Products/DeleteProduct/@pro.product_id">Delete</a></td>
+            </tr>
+        }
+    }
+</table>
+
+
+

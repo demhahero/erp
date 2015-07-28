@@ -2,11 +2,24 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="datalinq">
   <DataContextMoniker Name="/datalinqDataContext" />
   <nestedChildShapes>
-    <classShape Id="08da96ab-677e-40d8-a8df-bec6cb4d0149" absoluteBounds="2.375, 2, 2, 1.5785953776041666">
+    <classShape Id="08da96ab-677e-40d8-a8df-bec6cb4d0149" absoluteBounds="3.5, 1, 2, 1.5785953776041666">
       <DataClassMoniker Name="/datalinqDataContext/product" />
       <nestedChildShapes>
-        <elementListCompartment Id="2904e785-fa69-4bde-ad77-0a9abb7255bd" absoluteBounds="2.3899999999999997, 2.46, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="2904e785-fa69-4bde-ad77-0a9abb7255bd" absoluteBounds="3.5149999999999997, 1.46, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="2b61b8ec-d9ee-416b-b6fe-e21d3c4efa10" absoluteBounds="0.5, 1, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/datalinqDataContext/order" />
+      <nestedChildShapes>
+        <elementListCompartment Id="50333bd0-a562-4d1a-8177-907fba3a2132" absoluteBounds="0.51500000000000012, 1.46, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.5 : 1.9141430441103); (3.5 : 1.9141430441103)]" fixedFrom="Algorithm" fixedTo="Caller">
+      <AssociationMoniker Name="/datalinqDataContext/order/order_product" />
+      <nodes>
+        <classShapeMoniker Id="2b61b8ec-d9ee-416b-b6fe-e21d3c4efa10" />
+        <classShapeMoniker Id="08da96ab-677e-40d8-a8df-bec6cb4d0149" />
+      </nodes>
+    </associationConnector>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

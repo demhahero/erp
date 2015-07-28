@@ -1,12 +1,5 @@
-﻿@model IEnumerable<MVCempty.Models.product>
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
-@if (Model != null) {
-    foreach (MVCempty.Models.product pro in Model) {
-        <div>
-            @pro.name
-        </div>
-    }
-}
 <h2>Index</h2>
+<a href="/Products">Products</a>

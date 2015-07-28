@@ -33,6 +33,9 @@ namespace MVCempty.Models
     partial void Insertproduct(product instance);
     partial void Updateproduct(product instance);
     partial void Deleteproduct(product instance);
+    partial void Insertorder(order instance);
+    partial void Updateorder(order instance);
+    partial void Deleteorder(order instance);
     #endregion
 		
 		public datalinqDataContext() : 
@@ -72,6 +75,14 @@ namespace MVCempty.Models
 				return this.GetTable<product>();
 			}
 		}
+		
+		public System.Data.Linq.Table<order> orders
+		{
+			get
+			{
+				return this.GetTable<order>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.products")]
@@ -87,6 +98,8 @@ namespace MVCempty.Models
 		private System.Nullable<double> _price;
 		
 		private System.Nullable<int> _currency_id;
+		
+		private EntityRef<order> _order;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -104,6 +117,7 @@ namespace MVCempty.Models
 		
 		public product()
 		{
+			this._order = default(EntityRef<order>);
 			OnCreated();
 		}
 		
@@ -118,6 +132,10 @@ namespace MVCempty.Models
 			{
 				if ((this._product_id != value))
 				{
+					if (this._order.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Onproduct_idChanging(value);
 					this.SendPropertyChanging();
 					this._product_id = value;
@@ -187,6 +205,40 @@ namespace MVCempty.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="order_product", Storage="_order", ThisKey="product_id", OtherKey="product_id", IsForeignKey=true)]
+		public order order
+		{
+			get
+			{
+				return this._order.Entity;
+			}
+			set
+			{
+				order previousValue = this._order.Entity;
+				if (((previousValue != value) 
+							|| (this._order.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._order.Entity = null;
+						previousValue.products.Remove(this);
+					}
+					this._order.Entity = value;
+					if ((value != null))
+					{
+						value.products.Add(this);
+						this._product_id = value.product_id;
+					}
+					else
+					{
+						this._product_id = default(int);
+					}
+					this.SendPropertyChanged("order");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -205,6 +257,168 @@ namespace MVCempty.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.orders")]
+	public partial class order : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _order_id;
+		
+		private int _product_id;
+		
+		private int _currency_id;
+		
+		private int _quantity;
+		
+		private EntitySet<product> _products;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Onorder_idChanging(int value);
+    partial void Onorder_idChanged();
+    partial void Onproduct_idChanging(int value);
+    partial void Onproduct_idChanged();
+    partial void Oncurrency_idChanging(int value);
+    partial void Oncurrency_idChanged();
+    partial void OnquantityChanging(int value);
+    partial void OnquantityChanged();
+    #endregion
+		
+		public order()
+		{
+			this._products = new EntitySet<product>(new Action<product>(this.attach_products), new Action<product>(this.detach_products));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_order_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int order_id
+		{
+			get
+			{
+				return this._order_id;
+			}
+			set
+			{
+				if ((this._order_id != value))
+				{
+					this.Onorder_idChanging(value);
+					this.SendPropertyChanging();
+					this._order_id = value;
+					this.SendPropertyChanged("order_id");
+					this.Onorder_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_product_id", DbType="Int NOT NULL")]
+		public int product_id
+		{
+			get
+			{
+				return this._product_id;
+			}
+			set
+			{
+				if ((this._product_id != value))
+				{
+					this.Onproduct_idChanging(value);
+					this.SendPropertyChanging();
+					this._product_id = value;
+					this.SendPropertyChanged("product_id");
+					this.Onproduct_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_currency_id", DbType="Int NOT NULL")]
+		public int currency_id
+		{
+			get
+			{
+				return this._currency_id;
+			}
+			set
+			{
+				if ((this._currency_id != value))
+				{
+					this.Oncurrency_idChanging(value);
+					this.SendPropertyChanging();
+					this._currency_id = value;
+					this.SendPropertyChanged("currency_id");
+					this.Oncurrency_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_quantity", DbType="Int NOT NULL")]
+		public int quantity
+		{
+			get
+			{
+				return this._quantity;
+			}
+			set
+			{
+				if ((this._quantity != value))
+				{
+					this.OnquantityChanging(value);
+					this.SendPropertyChanging();
+					this._quantity = value;
+					this.SendPropertyChanged("quantity");
+					this.OnquantityChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="order_product", Storage="_products", ThisKey="product_id", OtherKey="product_id")]
+		public EntitySet<product> products
+		{
+			get
+			{
+				return this._products;
+			}
+			set
+			{
+				this._products.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_products(product entity)
+		{
+			this.SendPropertyChanging();
+			entity.order = this;
+		}
+		
+		private void detach_products(product entity)
+		{
+			this.SendPropertyChanging();
+			entity.order = null;
 		}
 	}
 }
