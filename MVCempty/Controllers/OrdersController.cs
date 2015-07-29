@@ -24,9 +24,10 @@ namespace MVCempty.Controllers
                 order ord = new order
                 {
                     product_id = Convert.ToInt32(Request.Form["product_id"].ToString()),
+                    customer_id = Convert.ToInt32(Request.Form["customer_id"].ToString()),
                     quantity = Convert.ToInt32(Request.Form["quantity"].ToString()),
-                    currency_id = 1
-                };
+                    currency_id = Convert.ToInt32(Request.Form["currency_id"].ToString())
+            };
                 db.orders.InsertOnSubmit(ord);
 
                 try
@@ -44,6 +45,14 @@ namespace MVCempty.Controllers
                 return RedirectToAction("Index", "Orders");
             }
 
+            List<customer> Customers = new List<customer>();
+            Customers = db.customers.ToList();
+            ViewData["Customers"] = Customers;
+
+            List<currency> Currencies = new List<currency>();
+            Currencies = db.currencies.ToList();
+            ViewData["Currencies"] = Currencies;
+
             List<product> model = new List<product>();
             model = db.products.ToList();
             return View(model);
@@ -54,13 +63,14 @@ namespace MVCempty.Controllers
         {
             if (Request.Form["product_id"] != null)
             {
-                var pro = (from product in db.products
-                           where product.product_id == id
-                           select product).SingleOrDefault();
+                var ord = (from order in db.orders
+                           where order.order_id == id
+                           select order).SingleOrDefault();
 
-                pro.name = Request.Form["name"].ToString();
-                pro.price = Convert.ToDouble(Request.Form["price"].ToString());
-                pro.currency_id = 1;
+                ord.product_id = Convert.ToInt32(Request.Form["product_id"].ToString());
+                ord.customer_id = Convert.ToInt32(Request.Form["customer_id"].ToString());
+                ord.currency_id = Convert.ToInt32(Request.Form["currency_id"].ToString());
+                ord.quantity = Convert.ToInt32(Request.Form["quantity"].ToString());
 
                 try
                 {
@@ -82,6 +92,14 @@ namespace MVCempty.Controllers
                            where order.order_id == id
                            select order).SingleOrDefault();
                 ViewBag.Order = ord;
+
+                List<customer> Customers = new List<customer>();
+                Customers = db.customers.ToList();
+                ViewData["Customers"] = Customers;
+
+                List<currency> Currencies = new List<currency>();
+                Currencies = db.currencies.ToList();
+                ViewData["Currencies"] = Currencies;
 
                 List<product> model = new List<product>();
                 model = db.products.ToList();

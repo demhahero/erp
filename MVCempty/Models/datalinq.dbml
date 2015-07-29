@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="erp" Class="datalinqDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=AHMED-PC;Initial Catalog=erp;Persist Security Info=True;User ID=ahmed91" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="erpConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=AHMEDLT\AHMED;Initial Catalog=erp;Persist Security Info=True;User ID=ahmed91" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="erpConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.products" Member="products">
     <Type Name="product">
       <Column Name="product_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -16,8 +16,10 @@
       <Column Name="product_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="currency_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="customer_id" Type="System.Int32" DbType="Int" CanBeNull="false" />
       <Association Name="product_order" Member="product" ThisKey="product_id" OtherKey="product_id" Type="product" IsForeignKey="true" />
       <Association Name="currency_order" Member="currency" ThisKey="currency_id" OtherKey="currency_id" Type="currency" IsForeignKey="true" />
+      <Association Name="customer_order" Member="customer" ThisKey="customer_id" OtherKey="customer_id" Type="customer" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.currencies" Member="currencies">
@@ -26,6 +28,13 @@
       <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="currency_product" Member="products" ThisKey="currency_id" OtherKey="currency_id" Type="product" />
       <Association Name="currency_order" Member="orders" ThisKey="currency_id" OtherKey="currency_id" Type="order" />
+    </Type>
+  </Table>
+  <Table Name="dbo.customers" Member="customers">
+    <Type Name="customer">
+      <Column Name="customer_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="customer_order" Member="orders" ThisKey="customer_id" OtherKey="customer_id" Type="order" />
     </Type>
   </Table>
 </Database>

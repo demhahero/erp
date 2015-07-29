@@ -2,6 +2,10 @@
 @{
     ViewBag.Title = "Add Order";
 }
+@{
+    var Customers = (List<MVCempty.Models.customer>)ViewData["Customers"];
+    var Currencies = (List<MVCempty.Models.currency>)ViewData["Currencies"];
+}
 
 <h2>Add Order</h2>
 
@@ -18,12 +22,38 @@
                 }
             }
         </select>
-
     </div>
+
+    <div class="form-group">
+        <label for="customer_id">Customer:</label>
+        <select class="form-control" name="customer_id">
+            @if (Model != null)
+            {
+                foreach (MVCempty.Models.customer cust in Customers)
+                {
+                    <option value="@cust.customer_id">@cust.name</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="currency_id">Currencies:</label>
+        <select class="form-control" name="currency_id">
+            @if (Model != null)
+            {
+                foreach (MVCempty.Models.currency curr in Currencies)
+                {
+                    <option selected value="@curr.currency_id">@curr.name</option>
+                }
+            }
+        </select>
+    </div>
+
     <div class="form-group">
         <label for="quantity">Quantity:</label>
         <input class="form-control"  name="quantity" />
     </div>
-    <button type="submit" class="btn btn-default">Edit</button>
+    <button type="submit" class="btn btn-default">Add</button>
 }
 

@@ -39,6 +39,9 @@ namespace MVCempty.Models
     partial void Insertcurrency(currency instance);
     partial void Updatecurrency(currency instance);
     partial void Deletecurrency(currency instance);
+    partial void Insertcustomer(customer instance);
+    partial void Updatecustomer(customer instance);
+    partial void Deletecustomer(customer instance);
     #endregion
 		
 		public datalinqDataContext() : 
@@ -92,6 +95,14 @@ namespace MVCempty.Models
 			get
 			{
 				return this.GetTable<currency>();
+			}
+		}
+		
+		public System.Data.Linq.Table<customer> customers
+		{
+			get
+			{
+				return this.GetTable<customer>();
 			}
 		}
 	}
@@ -313,9 +324,13 @@ namespace MVCempty.Models
 		
 		private int _quantity;
 		
+		private int _customer_id;
+		
 		private EntityRef<product> _product;
 		
 		private EntityRef<currency> _currency;
+		
+		private EntityRef<customer> _customer;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -329,12 +344,15 @@ namespace MVCempty.Models
     partial void Oncurrency_idChanged();
     partial void OnquantityChanging(int value);
     partial void OnquantityChanged();
+    partial void Oncustomer_idChanging(int value);
+    partial void Oncustomer_idChanged();
     #endregion
 		
 		public order()
 		{
 			this._product = default(EntityRef<product>);
 			this._currency = default(EntityRef<currency>);
+			this._customer = default(EntityRef<customer>);
 			OnCreated();
 		}
 		
@@ -426,6 +444,30 @@ namespace MVCempty.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_customer_id", DbType="Int")]
+		public int customer_id
+		{
+			get
+			{
+				return this._customer_id;
+			}
+			set
+			{
+				if ((this._customer_id != value))
+				{
+					if (this._customer.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Oncustomer_idChanging(value);
+					this.SendPropertyChanging();
+					this._customer_id = value;
+					this.SendPropertyChanged("customer_id");
+					this.Oncustomer_idChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="product_order", Storage="_product", ThisKey="product_id", OtherKey="product_id", IsForeignKey=true)]
 		public product product
 		{
@@ -490,6 +532,40 @@ namespace MVCempty.Models
 						this._currency_id = default(int);
 					}
 					this.SendPropertyChanged("currency");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="customer_order", Storage="_customer", ThisKey="customer_id", OtherKey="customer_id", IsForeignKey=true)]
+		public customer customer
+		{
+			get
+			{
+				return this._customer.Entity;
+			}
+			set
+			{
+				customer previousValue = this._customer.Entity;
+				if (((previousValue != value) 
+							|| (this._customer.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._customer.Entity = null;
+						previousValue.orders.Remove(this);
+					}
+					this._customer.Entity = value;
+					if ((value != null))
+					{
+						value.orders.Add(this);
+						this._customer_id = value.customer_id;
+					}
+					else
+					{
+						this._customer_id = default(int);
+					}
+					this.SendPropertyChanged("customer");
 				}
 			}
 		}
@@ -654,6 +730,120 @@ namespace MVCempty.Models
 		{
 			this.SendPropertyChanging();
 			entity.currency = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.customers")]
+	public partial class customer : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _customer_id;
+		
+		private string _name;
+		
+		private EntitySet<order> _orders;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Oncustomer_idChanging(int value);
+    partial void Oncustomer_idChanged();
+    partial void OnnameChanging(string value);
+    partial void OnnameChanged();
+    #endregion
+		
+		public customer()
+		{
+			this._orders = new EntitySet<order>(new Action<order>(this.attach_orders), new Action<order>(this.detach_orders));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_customer_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int customer_id
+		{
+			get
+			{
+				return this._customer_id;
+			}
+			set
+			{
+				if ((this._customer_id != value))
+				{
+					this.Oncustomer_idChanging(value);
+					this.SendPropertyChanging();
+					this._customer_id = value;
+					this.SendPropertyChanged("customer_id");
+					this.Oncustomer_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this.OnnameChanging(value);
+					this.SendPropertyChanging();
+					this._name = value;
+					this.SendPropertyChanged("name");
+					this.OnnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="customer_order", Storage="_orders", ThisKey="customer_id", OtherKey="customer_id")]
+		public EntitySet<order> orders
+		{
+			get
+			{
+				return this._orders;
+			}
+			set
+			{
+				this._orders.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_orders(order entity)
+		{
+			this.SendPropertyChanging();
+			entity.customer = this;
+		}
+		
+		private void detach_orders(order entity)
+		{
+			this.SendPropertyChanging();
+			entity.customer = null;
 		}
 	}
 }

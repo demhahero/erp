@@ -8,10 +8,10 @@
         <elementListCompartment Id="2904e785-fa69-4bde-ad77-0a9abb7255bd" absoluteBounds="3.5149999999999997, 1.46, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="2b61b8ec-d9ee-416b-b6fe-e21d3c4efa10" absoluteBounds="0.5, 1, 2, 1.5785953776041666">
+    <classShape Id="2b61b8ec-d9ee-416b-b6fe-e21d3c4efa10" absoluteBounds="0.5, 1, 2, 1.7708968098958331">
       <DataClassMoniker Name="/datalinqDataContext/order" />
       <nestedChildShapes>
-        <elementListCompartment Id="50333bd0-a562-4d1a-8177-907fba3a2132" absoluteBounds="0.51500000000000012, 1.46, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="50333bd0-a562-4d1a-8177-907fba3a2132" absoluteBounds="0.51500000000000012, 1.46, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <associationConnector edgePoints="[(3.5 : 1.78929768880208); (2.5 : 1.78929768880208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
@@ -21,23 +21,36 @@
         <classShapeMoniker Id="2b61b8ec-d9ee-416b-b6fe-e21d3c4efa10" />
       </nodes>
     </associationConnector>
-    <classShape Id="8bb156ca-db3b-4f73-b6d4-280dfd133865" absoluteBounds="2.125, 3.375, 2, 1.1939925130208333">
+    <classShape Id="8bb156ca-db3b-4f73-b6d4-280dfd133865" absoluteBounds="3.625, 3.375, 2, 1.1939925130208333">
       <DataClassMoniker Name="/datalinqDataContext/currency" />
       <nestedChildShapes>
-        <elementListCompartment Id="e4a14087-c129-495f-a448-43d266d5f007" absoluteBounds="2.1399999999999997, 3.835, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="e4a14087-c129-495f-a448-43d266d5f007" absoluteBounds="3.6399999999999997, 3.835, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(3.8125 : 3.375); (3.8125 : 2.57859537760417)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.5625 : 3.375); (4.5625 : 2.57859537760417)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/datalinqDataContext/currency/currency_product" />
       <nodes>
         <classShapeMoniker Id="8bb156ca-db3b-4f73-b6d4-280dfd133865" />
         <classShapeMoniker Id="08da96ab-677e-40d8-a8df-bec6cb4d0149" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.3125 : 3.375); (2.3125 : 2.57859537760417)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.59375 : 3.375); (5.59375 : 2.70599609375); (4.64583333333333 : 2.70599609375 : JumpStart); (4.47916666666667 : 2.70599609375 : JumpEnd); (2.5 : 2.70599609375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/datalinqDataContext/currency/currency_order" />
       <nodes>
         <classShapeMoniker Id="8bb156ca-db3b-4f73-b6d4-280dfd133865" />
+        <classShapeMoniker Id="2b61b8ec-d9ee-416b-b6fe-e21d3c4efa10" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="eac71be7-2251-4fb2-a158-c0bac944a5ca" absoluteBounds="0.5, 3.5, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/datalinqDataContext/customer" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f840ef47-50a1-45a4-b1be-9db638dad020" absoluteBounds="0.51499999999999968, 3.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(1.28125 : 3.5); (1.28125 : 2.77089680989583)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/datalinqDataContext/customer/customer_order" />
+      <nodes>
+        <classShapeMoniker Id="eac71be7-2251-4fb2-a158-c0bac944a5ca" />
         <classShapeMoniker Id="2b61b8ec-d9ee-416b-b6fe-e21d3c4efa10" />
       </nodes>
     </associationConnector>
