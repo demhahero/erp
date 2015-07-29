@@ -1,0 +1,25 @@
+﻿@model IEnumerable<MVCempty.Models.currency>
+@{
+    ViewBag.Title = "Currencies ";
+}
+<h2>Currencies </h2>
+
+<a class="btn btn-info" href="/Currencies/AddCurrency">Add new Currency</a> <br /><br />
+<table class="CSSTableGenerator">
+    <tr>
+        <td>Name</td>
+        <td>Delete</td>
+    </tr>
+
+    @if (Model != null)
+    {
+        foreach (MVCempty.Models.currency cur in Model)
+        {
+            <tr>
+                <td><a href="Currencies/EditCurrency/@cur.currency_id">@cur.name</a></td>
+                <td><a href="Currencies/DeleteCurrency/@cur.currency_id">Delete</a></td>
+            </tr>
+        }
+    }
+</table>
+

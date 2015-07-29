@@ -155,9 +155,9 @@
     <Content Include="Views\Orders\AddOrder.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Orders\EditOrder.cshtml" />
-    <Content Include="Views\Currencies\Index.cshtml" />
     <Content Include="Views\Currencies\AddCurrency.cshtml" />
     <Content Include="Views\Currencies\EditCurrency.cshtml" />
+    <Content Include="Views\Currencies\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
