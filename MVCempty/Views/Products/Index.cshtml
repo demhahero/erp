@@ -4,18 +4,26 @@
     ViewBag.Title = "Products";
 }
 <h2>Products</h2>
-<a href="/Products/AddProduct">Add new Product</a>
-<table style="border:solid 1px black; width:100%;">
+<a class="btn btn-info" href="/Products/AddProduct">Add new Product</a><br /><br />
+<table class="CSSTableGenerator" style="border:solid 1px black; width:100%;">
     
+
+    <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Price</td>
+        <td>Delete</td>
+    </tr>
+
     @if (Model != null)
     {
         foreach (MVCempty.Models.product pro in Model)
         {
             <tr>
-                <td>@pro.product_id</td>
-                <td>@pro.name</td>
-                <td>@pro.price</td>
-                <td><a href="Products/DeleteProduct/@pro.product_id">Delete</a></td>
+                <td style="text-align:center;">@pro.product_id</td>
+                <td><a href="/Products/EditProduct/@pro.product_id">@pro.name</a></td>
+                <td style="text-align:center;">@pro.price</td>
+                <td style="text-align:center;"><a href="/Products/DeleteProduct/@pro.product_id">Delete</a></td>
             </tr>
         }
     }

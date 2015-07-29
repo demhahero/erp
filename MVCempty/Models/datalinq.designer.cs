@@ -36,6 +36,9 @@ namespace MVCempty.Models
     partial void Insertorder(order instance);
     partial void Updateorder(order instance);
     partial void Deleteorder(order instance);
+    partial void Insertcurrency(currency instance);
+    partial void Updatecurrency(currency instance);
+    partial void Deletecurrency(currency instance);
     #endregion
 		
 		public datalinqDataContext() : 
@@ -83,6 +86,14 @@ namespace MVCempty.Models
 				return this.GetTable<order>();
 			}
 		}
+		
+		public System.Data.Linq.Table<currency> currencies
+		{
+			get
+			{
+				return this.GetTable<currency>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.products")]
@@ -99,7 +110,9 @@ namespace MVCempty.Models
 		
 		private System.Nullable<int> _currency_id;
 		
-		private EntityRef<order> _order;
+		private EntitySet<order> _orders;
+		
+		private EntityRef<currency> _currency;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -117,7 +130,8 @@ namespace MVCempty.Models
 		
 		public product()
 		{
-			this._order = default(EntityRef<order>);
+			this._orders = new EntitySet<order>(new Action<order>(this.attach_orders), new Action<order>(this.detach_orders));
+			this._currency = default(EntityRef<currency>);
 			OnCreated();
 		}
 		
@@ -132,10 +146,6 @@ namespace MVCempty.Models
 			{
 				if ((this._product_id != value))
 				{
-					if (this._order.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.Onproduct_idChanging(value);
 					this.SendPropertyChanging();
 					this._product_id = value;
@@ -196,6 +206,10 @@ namespace MVCempty.Models
 			{
 				if ((this._currency_id != value))
 				{
+					if (this._currency.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Oncurrency_idChanging(value);
 					this.SendPropertyChanging();
 					this._currency_id = value;
@@ -205,36 +219,49 @@ namespace MVCempty.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="order_product", Storage="_order", ThisKey="product_id", OtherKey="product_id", IsForeignKey=true)]
-		public order order
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="product_order", Storage="_orders", ThisKey="product_id", OtherKey="product_id")]
+		public EntitySet<order> orders
 		{
 			get
 			{
-				return this._order.Entity;
+				return this._orders;
 			}
 			set
 			{
-				order previousValue = this._order.Entity;
+				this._orders.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="currency_product", Storage="_currency", ThisKey="currency_id", OtherKey="currency_id", IsForeignKey=true)]
+		public currency currency
+		{
+			get
+			{
+				return this._currency.Entity;
+			}
+			set
+			{
+				currency previousValue = this._currency.Entity;
 				if (((previousValue != value) 
-							|| (this._order.HasLoadedOrAssignedValue == false)))
+							|| (this._currency.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._order.Entity = null;
+						this._currency.Entity = null;
 						previousValue.products.Remove(this);
 					}
-					this._order.Entity = value;
+					this._currency.Entity = value;
 					if ((value != null))
 					{
 						value.products.Add(this);
-						this._product_id = value.product_id;
+						this._currency_id = value.currency_id;
 					}
 					else
 					{
-						this._product_id = default(int);
+						this._currency_id = default(Nullable<int>);
 					}
-					this.SendPropertyChanged("order");
+					this.SendPropertyChanged("currency");
 				}
 			}
 		}
@@ -258,6 +285,18 @@ namespace MVCempty.Models
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void attach_orders(order entity)
+		{
+			this.SendPropertyChanging();
+			entity.product = this;
+		}
+		
+		private void detach_orders(order entity)
+		{
+			this.SendPropertyChanging();
+			entity.product = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.orders")]
@@ -274,7 +313,9 @@ namespace MVCempty.Models
 		
 		private int _quantity;
 		
-		private EntitySet<product> _products;
+		private EntityRef<product> _product;
+		
+		private EntityRef<currency> _currency;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -292,7 +333,8 @@ namespace MVCempty.Models
 		
 		public order()
 		{
-			this._products = new EntitySet<product>(new Action<product>(this.attach_products), new Action<product>(this.detach_products));
+			this._product = default(EntityRef<product>);
+			this._currency = default(EntityRef<currency>);
 			OnCreated();
 		}
 		
@@ -327,6 +369,10 @@ namespace MVCempty.Models
 			{
 				if ((this._product_id != value))
 				{
+					if (this._product.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Onproduct_idChanging(value);
 					this.SendPropertyChanging();
 					this._product_id = value;
@@ -347,6 +393,10 @@ namespace MVCempty.Models
 			{
 				if ((this._currency_id != value))
 				{
+					if (this._currency.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Oncurrency_idChanging(value);
 					this.SendPropertyChanging();
 					this._currency_id = value;
@@ -376,7 +426,167 @@ namespace MVCempty.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="order_product", Storage="_products", ThisKey="product_id", OtherKey="product_id")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="product_order", Storage="_product", ThisKey="product_id", OtherKey="product_id", IsForeignKey=true)]
+		public product product
+		{
+			get
+			{
+				return this._product.Entity;
+			}
+			set
+			{
+				product previousValue = this._product.Entity;
+				if (((previousValue != value) 
+							|| (this._product.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._product.Entity = null;
+						previousValue.orders.Remove(this);
+					}
+					this._product.Entity = value;
+					if ((value != null))
+					{
+						value.orders.Add(this);
+						this._product_id = value.product_id;
+					}
+					else
+					{
+						this._product_id = default(int);
+					}
+					this.SendPropertyChanged("product");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="currency_order", Storage="_currency", ThisKey="currency_id", OtherKey="currency_id", IsForeignKey=true)]
+		public currency currency
+		{
+			get
+			{
+				return this._currency.Entity;
+			}
+			set
+			{
+				currency previousValue = this._currency.Entity;
+				if (((previousValue != value) 
+							|| (this._currency.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._currency.Entity = null;
+						previousValue.orders.Remove(this);
+					}
+					this._currency.Entity = value;
+					if ((value != null))
+					{
+						value.orders.Add(this);
+						this._currency_id = value.currency_id;
+					}
+					else
+					{
+						this._currency_id = default(int);
+					}
+					this.SendPropertyChanged("currency");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.currencies")]
+	public partial class currency : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _currency_id;
+		
+		private string _name;
+		
+		private EntitySet<product> _products;
+		
+		private EntitySet<order> _orders;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Oncurrency_idChanging(int value);
+    partial void Oncurrency_idChanged();
+    partial void OnnameChanging(string value);
+    partial void OnnameChanged();
+    #endregion
+		
+		public currency()
+		{
+			this._products = new EntitySet<product>(new Action<product>(this.attach_products), new Action<product>(this.detach_products));
+			this._orders = new EntitySet<order>(new Action<order>(this.attach_orders), new Action<order>(this.detach_orders));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_currency_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int currency_id
+		{
+			get
+			{
+				return this._currency_id;
+			}
+			set
+			{
+				if ((this._currency_id != value))
+				{
+					this.Oncurrency_idChanging(value);
+					this.SendPropertyChanging();
+					this._currency_id = value;
+					this.SendPropertyChanged("currency_id");
+					this.Oncurrency_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this.OnnameChanging(value);
+					this.SendPropertyChanging();
+					this._name = value;
+					this.SendPropertyChanged("name");
+					this.OnnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="currency_product", Storage="_products", ThisKey="currency_id", OtherKey="currency_id")]
 		public EntitySet<product> products
 		{
 			get
@@ -386,6 +596,19 @@ namespace MVCempty.Models
 			set
 			{
 				this._products.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="currency_order", Storage="_orders", ThisKey="currency_id", OtherKey="currency_id")]
+		public EntitySet<order> orders
+		{
+			get
+			{
+				return this._orders;
+			}
+			set
+			{
+				this._orders.Assign(value);
 			}
 		}
 		
@@ -412,13 +635,25 @@ namespace MVCempty.Models
 		private void attach_products(product entity)
 		{
 			this.SendPropertyChanging();
-			entity.order = this;
+			entity.currency = this;
 		}
 		
 		private void detach_products(product entity)
 		{
 			this.SendPropertyChanging();
-			entity.order = null;
+			entity.currency = null;
+		}
+		
+		private void attach_orders(order entity)
+		{
+			this.SendPropertyChanging();
+			entity.currency = this;
+		}
+		
+		private void detach_orders(order entity)
+		{
+			this.SendPropertyChanging();
+			entity.currency = null;
 		}
 	}
 }

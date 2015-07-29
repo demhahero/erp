@@ -1,0 +1,37 @@
+﻿@model IEnumerable<MVCempty.Models.product>
+@{
+    ViewBag.Title = "Edit Order";
+}
+
+<h2>Edit Order</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <label for="product_id">Product:</label>
+        <select class="form-control" name="product_id">
+            @if (Model != null)
+            {
+                foreach (MVCempty.Models.product pro in Model)
+                {
+                    if (pro.product_id == ViewBag.Order.product_id)
+                    {
+                        <option selected value="@pro.product_id">@pro.name</option>
+                    }
+                    else
+                    {
+                        <option value="@pro.product_id">@pro.name</option>
+                    }
+                }
+            }
+        </select>
+        
+    </div>
+    <div class="form-group">
+        <label for="quantity">Quantity:</label>
+        <input class="form-control" value="@ViewBag.Order.quantity" name="quantity" />
+    </div>
+        <button type="submit" class="btn btn-default">Edit</button>
+}
+
+

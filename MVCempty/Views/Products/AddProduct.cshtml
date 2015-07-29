@@ -1,13 +1,20 @@
 ﻿
 @{
-    ViewBag.Title = "AddProduct";
+    ViewBag.Title = "Add Product";
 }
 <h2>Add Product</h2>
 @using (Html.BeginForm())
 {
-    <p>Name: <input name="name" /></p>
-    <p>Price: <input name = "price" /> </p>
-    <p><input type = "submit" /></p>
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input id="name" class="form-control" name="name" />
+    </div>
+    <div class="form-group">
+        <label for="price">Price:</label>
+        <input class="form-control" name="price" />
+    </div>
+        <button type="submit"  class="btn btn-default">Add</button>
+
 }
 
 

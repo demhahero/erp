@@ -21,12 +21,10 @@ namespace MVCempty.Controllers
 
         public ActionResult DeleteProduct(int id)
         {
-            var pro = from product in db.products where product.product_id == id
-                                        select product;
-            foreach (var pros in pro)
-            {
-                db.products.DeleteOnSubmit(pros);
-            }
+            var pro = (from product in db.products where product.product_id == id
+                      select product).SingleOrDefault();
+   
+            db.products.DeleteOnSubmit(pro);
 
             try
             {
@@ -71,5 +69,41 @@ namespace MVCempty.Controllers
             }
             return View();
         }
+
+        public ActionResult EditProduct(int id)
+        {
+            if (Request.Form["name"] != null)
+            {
+                var pro = (from product in db.products
+                           where product.product_id == id
+                           select product).SingleOrDefault();
+
+                pro.name = Request.Form["name"].ToString();
+                pro.price = Convert.ToDouble(Request.Form["price"].ToString());
+                pro.currency_id = 1;
+
+                try
+                {
+                    db.SubmitChanges();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    // Make some adjustments. 
+                    // ... 
+                    // Try again.
+                    db.SubmitChanges();
+                }
+                return RedirectToAction("Index", "Products");
+            }
+            else
+            {
+                var pro = (from product in db.products
+                           where product.product_id == id
+                           select product).SingleOrDefault();
+                ViewBag.Product = pro;
+                return View();
+            }
+        } 
     }
 }

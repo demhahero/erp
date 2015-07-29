@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Edit Product";
+}
+
+<h2>Edit Product</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input id="name" value="@ViewBag.Product.name" class="form-control" name="name" />
+    </div>
+    <div class="form-group">
+        <label for="price">Price:</label>
+        <input class="form-control"  value="@ViewBag.Product.price" name="price" />
+    </div>
+    <button type="submit" class="btn btn-default">Edit</button>
+}
+

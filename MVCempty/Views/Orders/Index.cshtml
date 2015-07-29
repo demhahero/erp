@@ -1,0 +1,26 @@
+﻿@model IQueryable<MVCempty.Models.order>
+@{
+    ViewBag.Title = "Orders";
+}
+<h2>Orders</h2>
+
+<a class="btn btn-info" href="/Orders/AddOrder">Add Order</a> <br /><br />
+
+<table class="CSSTableGenerator">
+    <tr>
+        <td>Name</td>
+        <td>Quantity</td>
+        <td>Delete</td>
+    </tr>
+    @if (Model != null)
+    {
+        foreach (MVCempty.Models.order ord in Model)
+        {
+            <tr>
+                <td><a href="Orders/EditOrder/@ord.order_id">@ord.product.name</a></td>
+                <td style="text-align:center;">@ord.quantity</td>
+                <td style="text-align:center;"><a href="Orders/DeleteOrder/@ord.order_id">Delete</a></td>
+            </tr>
+        }
+    }
+</table>
