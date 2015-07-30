@@ -1,0 +1,30 @@
+﻿@model IEnumerable<MVCempty.Models.ExchangerModel>
+@{
+    ViewBag.Title = "Exchanger Index";
+}
+
+<h2>Exchanger Index</h2>
+
+
+<a class="btn btn-info" href="/Currencies/AddExchanger">Add new Currency</a> <br /><br />
+<table class="CSSTableGenerator">
+    <tr>
+        <td>From</td>
+        <td>To</td>
+        <td>Value</td>
+        <td>Delete</td>
+    </tr>
+
+    @if (Model != null)
+    {
+        foreach (MVCempty.Models.ExchangerModel exch in Model)
+        {
+            <tr>
+                <td><a href="/Currencies/EditExchanger/@exch.currency1.currency_id/@exch.currency2.currency_id">@exch.currency1.name</a></td>
+                <td>@exch.currency2.name</td>
+                <td style="text-align:center;">@exch.value</td>
+                <td style="text-align:center;"><a href="/Currencies/DeleteExchanger/@exch.currency1.currency_id/@exch.currency2.currency_id">Delete</a></td>
+            </tr>
+        }
+    }
+</table>

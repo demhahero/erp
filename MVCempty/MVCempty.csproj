@@ -140,6 +140,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>datalinq.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Models\ExchangerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -163,9 +164,12 @@
     <Content Include="Views\Currencies\AddCurrency.cshtml" />
     <Content Include="Views\Currencies\EditCurrency.cshtml" />
     <Content Include="Views\Currencies\Index.cshtml" />
-    <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\Customers\AddCustomer.cshtml" />
     <Content Include="Views\Customers\EditCustomer.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Currencies\ExchangerIndex.cshtml" />
+    <Content Include="Views\Currencies\AddExchanger.cshtml" />
+    <Content Include="Views\Currencies\EditExchanger.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

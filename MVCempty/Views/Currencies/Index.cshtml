@@ -4,7 +4,7 @@
 }
 <h2>Currencies </h2>
 
-<a class="btn btn-info" href="/Currencies/AddCurrency">Add new Currency</a> <br /><br />
+<a class="btn btn-info" href="/Currencies/AddCurrency">Add new Currency</a> | <a  href="/Currencies/ExchangerIndex">Exchanger Index</a> <br /><br /> <br /><br />
 <table class="CSSTableGenerator">
     <tr>
         <td>Name</td>
@@ -16,8 +16,8 @@
         foreach (MVCempty.Models.currency cur in Model)
         {
             <tr>
-                <td><a href="Currencies/EditCurrency/@cur.currency_id">@cur.name</a></td>
-                <td  style="text-align:center;"><a href="Currencies/DeleteCurrency/@cur.currency_id">Delete</a></td>
+                <td><a href="/Currencies/EditCurrency/@cur.currency_id">@cur.name</a></td>
+                <td  style="text-align:center;"><a href="/Currencies/DeleteCurrency/@cur.currency_id">Delete</a></td>
             </tr>
         }
     }

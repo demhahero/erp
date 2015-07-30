@@ -42,6 +42,9 @@ namespace MVCempty.Models
     partial void Insertcustomer(customer instance);
     partial void Updatecustomer(customer instance);
     partial void Deletecustomer(customer instance);
+    partial void Insertexchanger(exchanger instance);
+    partial void Updateexchanger(exchanger instance);
+    partial void Deleteexchanger(exchanger instance);
     #endregion
 		
 		public datalinqDataContext() : 
@@ -103,6 +106,14 @@ namespace MVCempty.Models
 			get
 			{
 				return this.GetTable<customer>();
+			}
+		}
+		
+		public System.Data.Linq.Table<exchanger> exchangers
+		{
+			get
+			{
+				return this.GetTable<exchanger>();
 			}
 		}
 	}
@@ -605,6 +616,10 @@ namespace MVCempty.Models
 		
 		private EntitySet<order> _orders;
 		
+		private EntitySet<exchanger> _exchangers;
+		
+		private EntitySet<exchanger> _exchangers1;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -619,6 +634,8 @@ namespace MVCempty.Models
 		{
 			this._products = new EntitySet<product>(new Action<product>(this.attach_products), new Action<product>(this.detach_products));
 			this._orders = new EntitySet<order>(new Action<order>(this.attach_orders), new Action<order>(this.detach_orders));
+			this._exchangers = new EntitySet<exchanger>(new Action<exchanger>(this.attach_exchangers), new Action<exchanger>(this.detach_exchangers));
+			this._exchangers1 = new EntitySet<exchanger>(new Action<exchanger>(this.attach_exchangers1), new Action<exchanger>(this.detach_exchangers1));
 			OnCreated();
 		}
 		
@@ -688,6 +705,32 @@ namespace MVCempty.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="currency_exchanger", Storage="_exchangers", ThisKey="currency_id", OtherKey="currency_id1")]
+		public EntitySet<exchanger> exchangers
+		{
+			get
+			{
+				return this._exchangers;
+			}
+			set
+			{
+				this._exchangers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="currency_exchanger1", Storage="_exchangers1", ThisKey="currency_id", OtherKey="currency_id2")]
+		public EntitySet<exchanger> exchangers1
+		{
+			get
+			{
+				return this._exchangers1;
+			}
+			set
+			{
+				this._exchangers1.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -730,6 +773,30 @@ namespace MVCempty.Models
 		{
 			this.SendPropertyChanging();
 			entity.currency = null;
+		}
+		
+		private void attach_exchangers(exchanger entity)
+		{
+			this.SendPropertyChanging();
+			entity.currency = this;
+		}
+		
+		private void detach_exchangers(exchanger entity)
+		{
+			this.SendPropertyChanging();
+			entity.currency = null;
+		}
+		
+		private void attach_exchangers1(exchanger entity)
+		{
+			this.SendPropertyChanging();
+			entity.currency1 = this;
+		}
+		
+		private void detach_exchangers1(exchanger entity)
+		{
+			this.SendPropertyChanging();
+			entity.currency1 = null;
 		}
 	}
 	
@@ -844,6 +911,198 @@ namespace MVCempty.Models
 		{
 			this.SendPropertyChanging();
 			entity.customer = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.exchanger")]
+	public partial class exchanger : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _currency_id1;
+		
+		private int _currency_id2;
+		
+		private double _value;
+		
+		private EntityRef<currency> _currency;
+		
+		private EntityRef<currency> _currency1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Oncurrency_id1Changing(int value);
+    partial void Oncurrency_id1Changed();
+    partial void Oncurrency_id2Changing(int value);
+    partial void Oncurrency_id2Changed();
+    partial void OnvalueChanging(double value);
+    partial void OnvalueChanged();
+    #endregion
+		
+		public exchanger()
+		{
+			this._currency = default(EntityRef<currency>);
+			this._currency1 = default(EntityRef<currency>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_currency_id1", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int currency_id1
+		{
+			get
+			{
+				return this._currency_id1;
+			}
+			set
+			{
+				if ((this._currency_id1 != value))
+				{
+					if (this._currency.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Oncurrency_id1Changing(value);
+					this.SendPropertyChanging();
+					this._currency_id1 = value;
+					this.SendPropertyChanged("currency_id1");
+					this.Oncurrency_id1Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_currency_id2", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int currency_id2
+		{
+			get
+			{
+				return this._currency_id2;
+			}
+			set
+			{
+				if ((this._currency_id2 != value))
+				{
+					if (this._currency1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Oncurrency_id2Changing(value);
+					this.SendPropertyChanging();
+					this._currency_id2 = value;
+					this.SendPropertyChanged("currency_id2");
+					this.Oncurrency_id2Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_value", DbType="Float NOT NULL")]
+		public double value
+		{
+			get
+			{
+				return this._value;
+			}
+			set
+			{
+				if ((this._value != value))
+				{
+					this.OnvalueChanging(value);
+					this.SendPropertyChanging();
+					this._value = value;
+					this.SendPropertyChanged("value");
+					this.OnvalueChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="currency_exchanger", Storage="_currency", ThisKey="currency_id1", OtherKey="currency_id", IsForeignKey=true)]
+		public currency currency
+		{
+			get
+			{
+				return this._currency.Entity;
+			}
+			set
+			{
+				currency previousValue = this._currency.Entity;
+				if (((previousValue != value) 
+							|| (this._currency.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._currency.Entity = null;
+						previousValue.exchangers.Remove(this);
+					}
+					this._currency.Entity = value;
+					if ((value != null))
+					{
+						value.exchangers.Add(this);
+						this._currency_id1 = value.currency_id;
+					}
+					else
+					{
+						this._currency_id1 = default(int);
+					}
+					this.SendPropertyChanged("currency");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="currency_exchanger1", Storage="_currency1", ThisKey="currency_id2", OtherKey="currency_id", IsForeignKey=true)]
+		public currency currency1
+		{
+			get
+			{
+				return this._currency1.Entity;
+			}
+			set
+			{
+				currency previousValue = this._currency1.Entity;
+				if (((previousValue != value) 
+							|| (this._currency1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._currency1.Entity = null;
+						previousValue.exchangers1.Remove(this);
+					}
+					this._currency1.Entity = value;
+					if ((value != null))
+					{
+						value.exchangers1.Add(this);
+						this._currency_id2 = value.currency_id;
+					}
+					else
+					{
+						this._currency_id2 = default(int);
+					}
+					this.SendPropertyChanged("currency1");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

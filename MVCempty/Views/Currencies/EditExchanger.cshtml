@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Edit Exchanger";
+
+    var Currencies = (List<MVCempty.Models.currency>)ViewData["Currencies"];
+    var ExchangerModel = (MVCempty.Models.ExchangerModel)ViewData["ExchangerModel"];
+}
+
+<h2>Edit Exchanger</h2>
+
+
+@using (Html.BeginForm())
+{
+
+    <div class="form-group">
+        <label for="currency_id1">From:</label>
+        <select class="form-control" name="currency_id1">
+            @if (ExchangerModel != null)
+            {
+                foreach (MVCempty.Models.currency curr in Currencies)
+                {
+                    if (curr.currency_id == ExchangerModel.currency1.currency_id)
+                    {
+                        <option selected value="@curr.currency_id">@curr.name</option>
+                    }
+                    else
+                    {
+                        <option value="@curr.currency_id">@curr.name</option>
+                    }
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="currency_id2">To:</label>
+        <select class="form-control" name="currency_id2">
+            @if (ExchangerModel != null)
+            {
+                foreach (MVCempty.Models.currency curr2 in Currencies)
+                {
+                    if (curr2.currency_id == ExchangerModel.currency2.currency_id)
+                    {
+                        <option selected value="@curr2.currency_id">@curr2.name</option>
+                    }
+                    else
+                    {
+                        <option value="@curr2.currency_id">@curr2.name</option>
+                    }
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="value">value:</label>
+        <input class="form-control" value="@ExchangerModel.value" name="value" />
+    </div>
+    <button type="submit" class="btn btn-default">Edit</button>
+}

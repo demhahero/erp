@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="erp" Class="datalinqDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=AHMEDLT\AHMED;Initial Catalog=erp;Persist Security Info=True;User ID=ahmed91" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="erpConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=AHMED-PC;Initial Catalog=erp;Persist Security Info=True;User ID=ahmed91" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="erpConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.products" Member="products">
     <Type Name="product">
       <Column Name="product_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -28,6 +28,8 @@
       <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="currency_product" Member="products" ThisKey="currency_id" OtherKey="currency_id" Type="product" />
       <Association Name="currency_order" Member="orders" ThisKey="currency_id" OtherKey="currency_id" Type="order" />
+      <Association Name="currency_exchanger" Member="exchangers" ThisKey="currency_id" OtherKey="currency_id1" Type="exchanger" />
+      <Association Name="currency_exchanger1" Member="exchangers1" ThisKey="currency_id" OtherKey="currency_id2" Type="exchanger" />
     </Type>
   </Table>
   <Table Name="dbo.customers" Member="customers">
@@ -35,6 +37,15 @@
       <Column Name="customer_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="customer_order" Member="orders" ThisKey="customer_id" OtherKey="customer_id" Type="order" />
+    </Type>
+  </Table>
+  <Table Name="dbo.exchanger" Member="exchangers">
+    <Type Name="exchanger">
+      <Column Name="currency_id1" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="currency_id2" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="value" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Association Name="currency_exchanger" Member="currency" ThisKey="currency_id1" OtherKey="currency_id" Type="currency" IsForeignKey="true" />
+      <Association Name="currency_exchanger1" Member="currency1" ThisKey="currency_id2" OtherKey="currency_id" Type="currency" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

@@ -17,9 +17,9 @@
         foreach (MVCempty.Models.order ord in Model)
         {
             <tr>
-                <td><a href="Orders/EditOrder/@ord.order_id">@ord.product.name</a></td>
+                <td><a href="/Orders/EditOrder/@ord.order_id">@ord.product.name</a></td>
                 <td style="text-align:center;">@ord.quantity</td>
-                <td style="text-align:center;"><a href="Orders/DeleteOrder/@ord.order_id">Delete</a></td>
+                <td style="text-align:center;"><a href="/Orders/DeleteOrder/@ord.order_id">Delete</a></td>
             </tr>
         }
     }

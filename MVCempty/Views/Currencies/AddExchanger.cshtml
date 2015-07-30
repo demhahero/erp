@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "Add Exchange";
+
+    var Currencies = (List<MVCempty.Models.currency>)ViewData["Currencies"];
+}
+
+<h2>Add Exchange</h2>
+
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <label for="product_id">Product:</label>
+        <select class="form-control" name="currency_id1">
+            @if (Currencies != null)
+            {
+                foreach (MVCempty.Models.currency cur in Currencies)
+                {
+                    <option value="@cur.currency_id">@cur.name</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="product_id">Product:</label>
+        <select class="form-control" name="currency_id2">
+            @if (Currencies != null)
+            {
+                foreach (MVCempty.Models.currency cur in Currencies)
+                {
+                    <option value="@cur.currency_id">@cur.name</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="quantity">Value:</label>
+        <input class="form-control" name="value" />
+    </div>
+
+    <button type="submit" class="btn btn-default">Add</button>
+}
+
+
