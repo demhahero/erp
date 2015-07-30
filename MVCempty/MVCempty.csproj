@@ -132,6 +132,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\StoresController.cs" />
+    <Compile Include="Controllers\SuppliersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -170,6 +172,12 @@
     <Content Include="Views\Currencies\ExchangerIndex.cshtml" />
     <Content Include="Views\Currencies\AddExchanger.cshtml" />
     <Content Include="Views\Currencies\EditExchanger.cshtml" />
+    <Content Include="Views\Stores\Index.cshtml" />
+    <Content Include="Views\Stores\AddStore.cshtml" />
+    <Content Include="Views\Stores\EditStore.cshtml" />
+    <Content Include="Views\Suppliers\Index.cshtml" />
+    <Content Include="Views\Suppliers\EditSupplier.cshtml" />
+    <Content Include="Views\Suppliers\AddSupplier.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

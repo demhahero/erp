@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Add Store";
+}
+
+<h2>Add Store</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input id="name" class="form-control" name="name" />
+    </div>
+
+    <button type="submit" class="btn btn-default">Add</button>
+}
+
+

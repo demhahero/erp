@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="erp" Class="datalinqDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=AHMED-PC;Initial Catalog=erp;Persist Security Info=True;User ID=ahmed91" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="erpConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=AHMEDLT\AHMED;Initial Catalog=erp;Persist Security Info=True;User ID=ahmed91" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="erpConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.products" Member="products">
     <Type Name="product">
       <Column Name="product_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -7,6 +7,7 @@
       <Column Name="price" Type="System.Double" DbType="Float" CanBeNull="true" />
       <Column Name="currency_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="product_order" Member="orders" ThisKey="product_id" OtherKey="product_id" Type="order" />
+      <Association Name="product_store_product" Member="store_products" ThisKey="product_id" OtherKey="product_id" Type="store_product" />
       <Association Name="currency_product" Member="currency" ThisKey="currency_id" OtherKey="currency_id" Type="currency" IsForeignKey="true" />
     </Type>
   </Table>
@@ -46,6 +47,28 @@
       <Column Name="value" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
       <Association Name="currency_exchanger" Member="currency" ThisKey="currency_id1" OtherKey="currency_id" Type="currency" IsForeignKey="true" />
       <Association Name="currency_exchanger1" Member="currency1" ThisKey="currency_id2" OtherKey="currency_id" Type="currency" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.stores" Member="stores">
+    <Type Name="store">
+      <Column Name="store_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="store_store_product" Member="store_products" ThisKey="store_id" OtherKey="store_id" Type="store_product" />
+    </Type>
+  </Table>
+  <Table Name="dbo.store_product" Member="store_products">
+    <Type Name="store_product">
+      <Column Name="store_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="product_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="store_store_product" Member="store" ThisKey="store_id" OtherKey="store_id" Type="store" IsForeignKey="true" />
+      <Association Name="product_store_product" Member="product" ThisKey="product_id" OtherKey="product_id" Type="product" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.suppliers" Member="suppliers">
+    <Type Name="supplier">
+      <Column Name="supplier_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

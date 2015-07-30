@@ -45,6 +45,15 @@ namespace MVCempty.Models
     partial void Insertexchanger(exchanger instance);
     partial void Updateexchanger(exchanger instance);
     partial void Deleteexchanger(exchanger instance);
+    partial void Insertstore(store instance);
+    partial void Updatestore(store instance);
+    partial void Deletestore(store instance);
+    partial void Insertstore_product(store_product instance);
+    partial void Updatestore_product(store_product instance);
+    partial void Deletestore_product(store_product instance);
+    partial void Insertsupplier(supplier instance);
+    partial void Updatesupplier(supplier instance);
+    partial void Deletesupplier(supplier instance);
     #endregion
 		
 		public datalinqDataContext() : 
@@ -116,6 +125,30 @@ namespace MVCempty.Models
 				return this.GetTable<exchanger>();
 			}
 		}
+		
+		public System.Data.Linq.Table<store> stores
+		{
+			get
+			{
+				return this.GetTable<store>();
+			}
+		}
+		
+		public System.Data.Linq.Table<store_product> store_products
+		{
+			get
+			{
+				return this.GetTable<store_product>();
+			}
+		}
+		
+		public System.Data.Linq.Table<supplier> suppliers
+		{
+			get
+			{
+				return this.GetTable<supplier>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.products")]
@@ -133,6 +166,8 @@ namespace MVCempty.Models
 		private System.Nullable<int> _currency_id;
 		
 		private EntitySet<order> _orders;
+		
+		private EntitySet<store_product> _store_products;
 		
 		private EntityRef<currency> _currency;
 		
@@ -153,6 +188,7 @@ namespace MVCempty.Models
 		public product()
 		{
 			this._orders = new EntitySet<order>(new Action<order>(this.attach_orders), new Action<order>(this.detach_orders));
+			this._store_products = new EntitySet<store_product>(new Action<store_product>(this.attach_store_products), new Action<store_product>(this.detach_store_products));
 			this._currency = default(EntityRef<currency>);
 			OnCreated();
 		}
@@ -254,6 +290,19 @@ namespace MVCempty.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="product_store_product", Storage="_store_products", ThisKey="product_id", OtherKey="product_id")]
+		public EntitySet<store_product> store_products
+		{
+			get
+			{
+				return this._store_products;
+			}
+			set
+			{
+				this._store_products.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="currency_product", Storage="_currency", ThisKey="currency_id", OtherKey="currency_id", IsForeignKey=true)]
 		public currency currency
 		{
@@ -315,6 +364,18 @@ namespace MVCempty.Models
 		}
 		
 		private void detach_orders(order entity)
+		{
+			this.SendPropertyChanging();
+			entity.product = null;
+		}
+		
+		private void attach_store_products(store_product entity)
+		{
+			this.SendPropertyChanging();
+			entity.product = this;
+		}
+		
+		private void detach_store_products(store_product entity)
 		{
 			this.SendPropertyChanging();
 			entity.product = null;
@@ -1081,6 +1142,398 @@ namespace MVCempty.Models
 						this._currency_id2 = default(int);
 					}
 					this.SendPropertyChanged("currency1");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.stores")]
+	public partial class store : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _store_id;
+		
+		private string _name;
+		
+		private EntitySet<store_product> _store_products;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Onstore_idChanging(int value);
+    partial void Onstore_idChanged();
+    partial void OnnameChanging(string value);
+    partial void OnnameChanged();
+    #endregion
+		
+		public store()
+		{
+			this._store_products = new EntitySet<store_product>(new Action<store_product>(this.attach_store_products), new Action<store_product>(this.detach_store_products));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_store_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int store_id
+		{
+			get
+			{
+				return this._store_id;
+			}
+			set
+			{
+				if ((this._store_id != value))
+				{
+					this.Onstore_idChanging(value);
+					this.SendPropertyChanging();
+					this._store_id = value;
+					this.SendPropertyChanged("store_id");
+					this.Onstore_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this.OnnameChanging(value);
+					this.SendPropertyChanging();
+					this._name = value;
+					this.SendPropertyChanged("name");
+					this.OnnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="store_store_product", Storage="_store_products", ThisKey="store_id", OtherKey="store_id")]
+		public EntitySet<store_product> store_products
+		{
+			get
+			{
+				return this._store_products;
+			}
+			set
+			{
+				this._store_products.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_store_products(store_product entity)
+		{
+			this.SendPropertyChanging();
+			entity.store = this;
+		}
+		
+		private void detach_store_products(store_product entity)
+		{
+			this.SendPropertyChanging();
+			entity.store = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.store_product")]
+	public partial class store_product : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _store_id;
+		
+		private int _product_id;
+		
+		private int _quantity;
+		
+		private EntityRef<store> _store;
+		
+		private EntityRef<product> _product;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Onstore_idChanging(int value);
+    partial void Onstore_idChanged();
+    partial void Onproduct_idChanging(int value);
+    partial void Onproduct_idChanged();
+    partial void OnquantityChanging(int value);
+    partial void OnquantityChanged();
+    #endregion
+		
+		public store_product()
+		{
+			this._store = default(EntityRef<store>);
+			this._product = default(EntityRef<product>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_store_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int store_id
+		{
+			get
+			{
+				return this._store_id;
+			}
+			set
+			{
+				if ((this._store_id != value))
+				{
+					if (this._store.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onstore_idChanging(value);
+					this.SendPropertyChanging();
+					this._store_id = value;
+					this.SendPropertyChanged("store_id");
+					this.Onstore_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_product_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int product_id
+		{
+			get
+			{
+				return this._product_id;
+			}
+			set
+			{
+				if ((this._product_id != value))
+				{
+					if (this._product.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onproduct_idChanging(value);
+					this.SendPropertyChanging();
+					this._product_id = value;
+					this.SendPropertyChanged("product_id");
+					this.Onproduct_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_quantity", DbType="Int NOT NULL")]
+		public int quantity
+		{
+			get
+			{
+				return this._quantity;
+			}
+			set
+			{
+				if ((this._quantity != value))
+				{
+					this.OnquantityChanging(value);
+					this.SendPropertyChanging();
+					this._quantity = value;
+					this.SendPropertyChanged("quantity");
+					this.OnquantityChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="store_store_product", Storage="_store", ThisKey="store_id", OtherKey="store_id", IsForeignKey=true)]
+		public store store
+		{
+			get
+			{
+				return this._store.Entity;
+			}
+			set
+			{
+				store previousValue = this._store.Entity;
+				if (((previousValue != value) 
+							|| (this._store.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._store.Entity = null;
+						previousValue.store_products.Remove(this);
+					}
+					this._store.Entity = value;
+					if ((value != null))
+					{
+						value.store_products.Add(this);
+						this._store_id = value.store_id;
+					}
+					else
+					{
+						this._store_id = default(int);
+					}
+					this.SendPropertyChanged("store");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="product_store_product", Storage="_product", ThisKey="product_id", OtherKey="product_id", IsForeignKey=true)]
+		public product product
+		{
+			get
+			{
+				return this._product.Entity;
+			}
+			set
+			{
+				product previousValue = this._product.Entity;
+				if (((previousValue != value) 
+							|| (this._product.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._product.Entity = null;
+						previousValue.store_products.Remove(this);
+					}
+					this._product.Entity = value;
+					if ((value != null))
+					{
+						value.store_products.Add(this);
+						this._product_id = value.product_id;
+					}
+					else
+					{
+						this._product_id = default(int);
+					}
+					this.SendPropertyChanged("product");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.suppliers")]
+	public partial class supplier : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _supplier_id;
+		
+		private string _name;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Onsupplier_idChanging(int value);
+    partial void Onsupplier_idChanged();
+    partial void OnnameChanging(string value);
+    partial void OnnameChanged();
+    #endregion
+		
+		public supplier()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_supplier_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int supplier_id
+		{
+			get
+			{
+				return this._supplier_id;
+			}
+			set
+			{
+				if ((this._supplier_id != value))
+				{
+					this.Onsupplier_idChanging(value);
+					this.SendPropertyChanging();
+					this._supplier_id = value;
+					this.SendPropertyChanged("supplier_id");
+					this.Onsupplier_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this.OnnameChanging(value);
+					this.SendPropertyChanging();
+					this._name = value;
+					this.SendPropertyChanged("name");
+					this.OnnameChanged();
 				}
 			}
 		}

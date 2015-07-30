@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="datalinq">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11.75, 8.5" name="datalinq">
   <DataContextMoniker Name="/datalinqDataContext" />
   <nestedChildShapes>
     <classShape Id="08da96ab-677e-40d8-a8df-bec6cb4d0149" absoluteBounds="3.5, 1, 2, 1.5785953776041666">
@@ -27,14 +27,14 @@
         <elementListCompartment Id="e4a14087-c129-495f-a448-43d266d5f007" absoluteBounds="3.0149999999999997, 3.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(4.25 : 3.5); (4.25 : 2.57859537760417)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.25 : 3.5); (4.25 : 2.57859537760417)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/datalinqDataContext/currency/currency_product" />
       <nodes>
         <classShapeMoniker Id="8bb156ca-db3b-4f73-b6d4-280dfd133865" />
         <classShapeMoniker Id="08da96ab-677e-40d8-a8df-bec6cb4d0149" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(3.21875 : 3.5); (3.21875 : 2.70599609375); (2.5 : 2.70599609375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(3.21875 : 3.5); (3.21875 : 2.70599609375); (2.5 : 2.70599609375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/datalinqDataContext/currency/currency_order" />
       <nodes>
         <classShapeMoniker Id="8bb156ca-db3b-4f73-b6d4-280dfd133865" />
@@ -60,19 +60,51 @@
         <elementListCompartment Id="9b630344-be76-4efa-97bf-36194a85c463" absoluteBounds="3.0149999999999997, 5.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(4 : 4.69399251302083); (4 : 5.5)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4 : 4.69399251302083); (4 : 5.5)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/datalinqDataContext/currency/currency_exchanger" />
       <nodes>
         <classShapeMoniker Id="8bb156ca-db3b-4f73-b6d4-280dfd133865" />
         <classShapeMoniker Id="195d79e4-deac-46b1-bc7f-f56c8b0c8a9d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(4.5625 : 4.69399251302083); (4.5625 : 5.5)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.5625 : 4.69399251302083); (4.5625 : 5.5)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/datalinqDataContext/currency/currency_exchanger1" />
       <nodes>
         <classShapeMoniker Id="8bb156ca-db3b-4f73-b6d4-280dfd133865" />
         <classShapeMoniker Id="195d79e4-deac-46b1-bc7f-f56c8b0c8a9d" />
       </nodes>
     </associationConnector>
+    <classShape Id="bfdb5b5c-d511-4e37-a85e-612683ab3898" absoluteBounds="9.375, 1.125, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/datalinqDataContext/store" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ad67c048-3616-4638-ac2a-2ee3ea8fcafd" absoluteBounds="9.39, 1.585, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ca3651c7-36fb-432b-b637-bf2aba856c22" absoluteBounds="6.5, 1.125, 2, 1.3862939453125">
+      <DataClassMoniker Name="/datalinqDataContext/store_product" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4306c452-68ba-40c1-a892-7abcb36a46b5" absoluteBounds="6.515, 1.585, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(9.375 : 1.72199625651042); (8.5 : 1.72199625651042)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/datalinqDataContext/store/store_store_product" />
+      <nodes>
+        <classShapeMoniker Id="bfdb5b5c-d511-4e37-a85e-612683ab3898" />
+        <classShapeMoniker Id="ca3651c7-36fb-432b-b637-bf2aba856c22" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 1.81814697265625); (6.5 : 1.81814697265625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/datalinqDataContext/product/product_store_product" />
+      <nodes>
+        <classShapeMoniker Id="08da96ab-677e-40d8-a8df-bec6cb4d0149" />
+        <classShapeMoniker Id="ca3651c7-36fb-432b-b637-bf2aba856c22" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="42e6be68-c66b-4179-ac72-9f585bee9a0e" absoluteBounds="9.5, 3.5, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/datalinqDataContext/supplier" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ff698a2d-0a67-4c81-be44-c1ed9de42705" absoluteBounds="9.515, 3.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

@@ -14,7 +14,7 @@
 
     <div class="form-group">
         <label for="currency_id1">From:</label>
-        <select class="form-control" name="currency_id1">
+        <select disabled class="form-control" name="currency_id1">
             @if (ExchangerModel != null)
             {
                 foreach (MVCempty.Models.currency curr in Currencies)
@@ -34,7 +34,7 @@
 
     <div class="form-group">
         <label for="currency_id2">To:</label>
-        <select class="form-control" name="currency_id2">
+        <select disabled class="form-control" name="currency_id2">
             @if (ExchangerModel != null)
             {
                 foreach (MVCempty.Models.currency curr2 in Currencies)

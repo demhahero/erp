@@ -1,0 +1,25 @@
+﻿@model IEnumerable<MVCempty.Models.supplier>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<a class="btn btn-info" href="/Suppliers/AddSupplier">Add new Supplier</a> <br /><br />
+<table class="CSSTableGenerator">
+    <tr>
+        <td>Name</td>
+        <td>Delete</td>
+    </tr>
+
+    @if (Model != null)
+    {
+        foreach (MVCempty.Models.supplier cost in Model)
+        {
+            <tr>
+                <td><a href="/Suppliers/EditSupplier/@cost.supplier_id">@cost.name</a></td>
+                <td style="text-align:center;"><a href="/Suppliers/DeleteSupplier/@cost.supplier_id">Delete</a></td>
+            </tr>
+        }
+    }
+</table>
+
