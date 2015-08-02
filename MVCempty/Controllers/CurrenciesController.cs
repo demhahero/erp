@@ -170,14 +170,12 @@ namespace MVCempty.Controllers
 
         public ActionResult EditExchanger(int id , int id2)
         {
-            if (Request.Form["currency_id1"] != null && Request.Form["currency_id2"] != null && Request.Form["value"] != null)
+            if (Request.Form["value"] != null)
             {
                 var exch = (from exchanger in db.exchangers
                            where exchanger.currency_id1 == id && exchanger.currency_id2 == id2
                            select exchanger).SingleOrDefault();
 
-                exch.currency_id1 = Convert.ToInt32(Request.Form["currency_id1"].ToString());
-                exch.currency_id2 = Convert.ToInt32(Request.Form["currency_id2"].ToString());
                 exch.value = Convert.ToDouble(Request.Form["value"].ToString());
 
                 try

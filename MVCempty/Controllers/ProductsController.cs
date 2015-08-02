@@ -50,7 +50,7 @@ namespace MVCempty.Controllers
                 {
                     name = Request.Form["name"].ToString(),
                     price = Convert.ToDouble(Request.Form["price"].ToString()),
-                    currency_id = 1
+                    currency_id = Convert.ToInt32(Request.Form["currency_id"].ToString())
                 };
                 db.products.InsertOnSubmit(pro);
                 try
@@ -67,6 +67,10 @@ namespace MVCempty.Controllers
                 }
                 return RedirectToAction("Index", "Products");
             }
+
+            List<currency> Currencies = new List<currency>();
+            Currencies = db.currencies.ToList();
+            ViewData["Currencies"] = Currencies;
             return View();
         }
 
@@ -80,7 +84,7 @@ namespace MVCempty.Controllers
 
                 pro.name = Request.Form["name"].ToString();
                 pro.price = Convert.ToDouble(Request.Form["price"].ToString());
-                pro.currency_id = 1;
+                pro.currency_id = Convert.ToInt32(Request.Form["currency_id"].ToString());
 
                 try
                 {
@@ -102,6 +106,11 @@ namespace MVCempty.Controllers
                            where product.product_id == id
                            select product).SingleOrDefault();
                 ViewBag.Product = pro;
+
+                List<currency> Currencies = new List<currency>();
+                Currencies = db.currencies.ToList();
+                ViewData["Currencies"] = Currencies;
+
                 return View();
             }
         } 

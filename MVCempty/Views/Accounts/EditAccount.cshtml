@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Edit Account";
+
+    var Currencies = (List<MVCempty.Models.currency>)ViewData["Currencies"];
+}
+
+<h2>Edit Account</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <label for="number">Number:</label>
+        <input class="form-control" name="number" value="@ViewBag.Account.number" />
+    </div>
+
+    <div class="form-group">
+        <label for="bank">Bank:</label>
+        <input class="form-control" name="bank" value="@ViewBag.Account.bank" />
+    </div>
+    <div class="form-group">
+        <label for="currency_id">Currencies:</label>
+        <select class="form-control" name="currency_id">
+            @if (Currencies != null)
+            {
+                foreach (MVCempty.Models.currency curr in Currencies)
+                {
+                    if (curr.currency_id == ViewBag.Account.currency_id)
+                    {
+                        <option selected value="@curr.currency_id">@curr.name</option>
+                    }
+                    else
+                    {
+                        <option value="@curr.currency_id">@curr.name</option>
+                    }
+                }
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="type">Type:</label>
+        <select class="form-control" name="type">
+            
+            <option @if (ViewBag.Account.type == 1) { 
+                @:selected 
+                    } value="1">Bank</option>
+            <option @if (ViewBag.Account.type == 2) {
+                @:selected 
+            }  value="2">Cash</option>
+            <option @if (ViewBag.Account.type == 3) {
+                @:selected 
+            }  value="3">Temporal</option>
+        </select>
+    </div>
+
+
+    <div class="form-group">
+        <label for="value">Value:</label>
+        <input class="form-control" name="value" value="@ViewBag.Account.value" />
+    </div>
+    <button type="submit" class="btn btn-default">Edit</button>
+}
+

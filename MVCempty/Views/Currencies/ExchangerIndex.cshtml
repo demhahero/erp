@@ -20,8 +20,8 @@
         foreach (MVCempty.Models.ExchangerModel exch in Model)
         {
             <tr>
-                <td><a href="/Currencies/EditExchanger/@exch.currency1.currency_id/@exch.currency2.currency_id">@exch.currency1.name</a></td>
-                <td>@exch.currency2.name</td>
+                <td style="text-align:center;"><a href="/Currencies/EditExchanger/@exch.currency1.currency_id/@exch.currency2.currency_id">@exch.currency1.name</a></td>
+                <td style="text-align:center;">@exch.currency2.name</td>
                 <td style="text-align:center;">@exch.value</td>
                 <td style="text-align:center;"><a href="/Currencies/DeleteExchanger/@exch.currency1.currency_id/@exch.currency2.currency_id">Delete</a></td>
             </tr>

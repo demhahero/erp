@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Add Product";
+    var Currencies = (List<MVCempty.Models.currency>)ViewData["Currencies"];
 }
 <h2>Add Product</h2>
 @using (Html.BeginForm())
@@ -12,6 +13,18 @@
     <div class="form-group">
         <label for="price">Price:</label>
         <input class="form-control" name="price" />
+    </div>
+    <div class="form-group">
+        <label for="currency_id">Currencies:</label>
+        <select class="form-control" name="currency_id">
+            @if (Currencies != null)
+            {
+                foreach (MVCempty.Models.currency curr in Currencies)
+                {
+                    <option selected value="@curr.currency_id">@curr.name</option>
+                }
+            }
+        </select>
     </div>
         <button type="submit"  class="btn btn-default">Add</button>
 

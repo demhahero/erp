@@ -54,6 +54,9 @@ namespace MVCempty.Models
     partial void Insertsupplier(supplier instance);
     partial void Updatesupplier(supplier instance);
     partial void Deletesupplier(supplier instance);
+    partial void Insertaccount(account instance);
+    partial void Updateaccount(account instance);
+    partial void Deleteaccount(account instance);
     #endregion
 		
 		public datalinqDataContext() : 
@@ -147,6 +150,14 @@ namespace MVCempty.Models
 			get
 			{
 				return this.GetTable<supplier>();
+			}
+		}
+		
+		public System.Data.Linq.Table<account> accounts
+		{
+			get
+			{
+				return this.GetTable<account>();
 			}
 		}
 	}
@@ -681,6 +692,8 @@ namespace MVCempty.Models
 		
 		private EntitySet<exchanger> _exchangers1;
 		
+		private EntitySet<account> _accounts;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -697,6 +710,7 @@ namespace MVCempty.Models
 			this._orders = new EntitySet<order>(new Action<order>(this.attach_orders), new Action<order>(this.detach_orders));
 			this._exchangers = new EntitySet<exchanger>(new Action<exchanger>(this.attach_exchangers), new Action<exchanger>(this.detach_exchangers));
 			this._exchangers1 = new EntitySet<exchanger>(new Action<exchanger>(this.attach_exchangers1), new Action<exchanger>(this.detach_exchangers1));
+			this._accounts = new EntitySet<account>(new Action<account>(this.attach_accounts), new Action<account>(this.detach_accounts));
 			OnCreated();
 		}
 		
@@ -792,6 +806,19 @@ namespace MVCempty.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="currency_account", Storage="_accounts", ThisKey="currency_id", OtherKey="currency_id")]
+		public EntitySet<account> accounts
+		{
+			get
+			{
+				return this._accounts;
+			}
+			set
+			{
+				this._accounts.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -858,6 +885,18 @@ namespace MVCempty.Models
 		{
 			this.SendPropertyChanging();
 			entity.currency1 = null;
+		}
+		
+		private void attach_accounts(account entity)
+		{
+			this.SendPropertyChanging();
+			entity.currency = this;
+		}
+		
+		private void detach_accounts(account entity)
+		{
+			this.SendPropertyChanging();
+			entity.currency = null;
 		}
 	}
 	
@@ -1534,6 +1573,229 @@ namespace MVCempty.Models
 					this._name = value;
 					this.SendPropertyChanged("name");
 					this.OnnameChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.accounts")]
+	public partial class account : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _account_id;
+		
+		private string _number;
+		
+		private string _bank;
+		
+		private int _type;
+		
+		private int _value;
+		
+		private int _currency_id;
+		
+		private EntityRef<currency> _currency;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Onaccount_idChanging(int value);
+    partial void Onaccount_idChanged();
+    partial void OnnumberChanging(string value);
+    partial void OnnumberChanged();
+    partial void OnbankChanging(string value);
+    partial void OnbankChanged();
+    partial void OntypeChanging(int value);
+    partial void OntypeChanged();
+    partial void OnvalueChanging(int value);
+    partial void OnvalueChanged();
+    partial void Oncurrency_idChanging(int value);
+    partial void Oncurrency_idChanged();
+    #endregion
+		
+		public account()
+		{
+			this._currency = default(EntityRef<currency>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_account_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int account_id
+		{
+			get
+			{
+				return this._account_id;
+			}
+			set
+			{
+				if ((this._account_id != value))
+				{
+					this.Onaccount_idChanging(value);
+					this.SendPropertyChanging();
+					this._account_id = value;
+					this.SendPropertyChanged("account_id");
+					this.Onaccount_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_number", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string number
+		{
+			get
+			{
+				return this._number;
+			}
+			set
+			{
+				if ((this._number != value))
+				{
+					this.OnnumberChanging(value);
+					this.SendPropertyChanging();
+					this._number = value;
+					this.SendPropertyChanged("number");
+					this.OnnumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bank", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string bank
+		{
+			get
+			{
+				return this._bank;
+			}
+			set
+			{
+				if ((this._bank != value))
+				{
+					this.OnbankChanging(value);
+					this.SendPropertyChanging();
+					this._bank = value;
+					this.SendPropertyChanged("bank");
+					this.OnbankChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_type", DbType="Int NOT NULL")]
+		public int type
+		{
+			get
+			{
+				return this._type;
+			}
+			set
+			{
+				if ((this._type != value))
+				{
+					this.OntypeChanging(value);
+					this.SendPropertyChanging();
+					this._type = value;
+					this.SendPropertyChanged("type");
+					this.OntypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_value", DbType="Int NOT NULL")]
+		public int value
+		{
+			get
+			{
+				return this._value;
+			}
+			set
+			{
+				if ((this._value != value))
+				{
+					this.OnvalueChanging(value);
+					this.SendPropertyChanging();
+					this._value = value;
+					this.SendPropertyChanged("value");
+					this.OnvalueChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_currency_id", DbType="Int")]
+		public int currency_id
+		{
+			get
+			{
+				return this._currency_id;
+			}
+			set
+			{
+				if ((this._currency_id != value))
+				{
+					if (this._currency.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Oncurrency_idChanging(value);
+					this.SendPropertyChanging();
+					this._currency_id = value;
+					this.SendPropertyChanged("currency_id");
+					this.Oncurrency_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="currency_account", Storage="_currency", ThisKey="currency_id", OtherKey="currency_id", IsForeignKey=true)]
+		public currency currency
+		{
+			get
+			{
+				return this._currency.Entity;
+			}
+			set
+			{
+				currency previousValue = this._currency.Entity;
+				if (((previousValue != value) 
+							|| (this._currency.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._currency.Entity = null;
+						previousValue.accounts.Remove(this);
+					}
+					this._currency.Entity = value;
+					if ((value != null))
+					{
+						value.accounts.Add(this);
+						this._currency_id = value.currency_id;
+					}
+					else
+					{
+						this._currency_id = default(int);
+					}
+					this.SendPropertyChanged("currency");
 				}
 			}
 		}

@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "Edit Product";
+    var Currencies = (List<MVCempty.Models.currency>)ViewData["Currencies"];
 }
 
 <h2>Edit Product</h2>
@@ -13,6 +14,25 @@
     <div class="form-group">
         <label for="price">Price:</label>
         <input class="form-control"  value="@ViewBag.Product.price" name="price" />
+    </div>
+    <div class="form-group">
+        <label for="currency_id">Currencies:</label>
+        <select class="form-control" name="currency_id">
+            @if (Currencies != null)
+            {
+                foreach (MVCempty.Models.currency curr in Currencies)
+                {
+                    if (curr.currency_id == ViewBag.Product.currency_id)
+                    {
+                        <option selected value="@curr.currency_id">@curr.name</option>
+                    }
+                    else
+                    {
+                        <option value="@curr.currency_id">@curr.name</option>
+                    }
+                }
+            }
+        </select>
     </div>
     <button type="submit" class="btn btn-default">Edit</button>
 }

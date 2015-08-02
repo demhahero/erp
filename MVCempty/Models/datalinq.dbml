@@ -31,6 +31,7 @@
       <Association Name="currency_order" Member="orders" ThisKey="currency_id" OtherKey="currency_id" Type="order" />
       <Association Name="currency_exchanger" Member="exchangers" ThisKey="currency_id" OtherKey="currency_id1" Type="exchanger" />
       <Association Name="currency_exchanger1" Member="exchangers1" ThisKey="currency_id" OtherKey="currency_id2" Type="exchanger" />
+      <Association Name="currency_account" Member="accounts" ThisKey="currency_id" OtherKey="currency_id" Type="account" />
     </Type>
   </Table>
   <Table Name="dbo.customers" Member="customers">
@@ -69,6 +70,17 @@
     <Type Name="supplier">
       <Column Name="supplier_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.accounts" Member="accounts">
+    <Type Name="account">
+      <Column Name="account_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="number" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="bank" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="currency_id" Type="System.Int32" DbType="Int" CanBeNull="false" />
+      <Association Name="currency_account" Member="currency" ThisKey="currency_id" OtherKey="currency_id" Type="currency" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
