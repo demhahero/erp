@@ -26,8 +26,10 @@ namespace MVCempty.Controllers
                     product_id = Convert.ToInt32(Request.Form["product_id"].ToString()),
                     customer_id = Convert.ToInt32(Request.Form["customer_id"].ToString()),
                     quantity = Convert.ToInt32(Request.Form["quantity"].ToString()),
-                    currency_id = Convert.ToInt32(Request.Form["currency_id"].ToString())
-            };
+                    currency_id = Convert.ToInt32(Request.Form["currency_id"].ToString()),
+                    supplier_id = Convert.ToInt32(Request.Form["supplier_id"].ToString()),
+                    progress = 0
+                };
                 db.orders.InsertOnSubmit(ord);
 
                 try
@@ -52,6 +54,10 @@ namespace MVCempty.Controllers
             List<currency> Currencies = new List<currency>();
             Currencies = db.currencies.ToList();
             ViewData["Currencies"] = Currencies;
+
+            List<supplier> Suppliers = new List<supplier>();
+            Suppliers = db.suppliers.ToList();
+            ViewData["Suppliers"] = Suppliers;
 
             List<product> model = new List<product>();
             model = db.products.ToList();
@@ -107,6 +113,36 @@ namespace MVCempty.Controllers
             }
         }
 
+        public ActionResult ProductShipped(int id)
+        {
+            if (id > 0)
+            {
+                var ord = (from order in db.orders
+                           where order.order_id == id
+                           select order).SingleOrDefault();
+
+                ord.progress = 1;
+
+                try
+                {
+                    db.SubmitChanges();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    // Make some adjustments. 
+                    // ... 
+                    // Try again.
+                    db.SubmitChanges();
+                }
+                return RedirectToAction("Index", "Orders");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Orders");
+            }
+        }
+
         public ActionResult DeleteOrder(int id)
         {
             var ord = (from order in db.orders
@@ -129,6 +165,47 @@ namespace MVCempty.Controllers
             }
 
             return RedirectToAction("Index", "Orders");
+        }
+
+        public ActionResult PriceList(int id)
+        {
+            var ord = (from order in db.orders
+                       where order.order_id == id
+                       select order).SingleOrDefault();
+            
+            ViewData["order"] = ord;
+
+            return View();
+        }
+
+        public ActionResult OrderDone(int id)
+        {
+            if (id > 0)
+            {
+                var ord = (from order in db.orders
+                           where order.order_id == id
+                           select order).SingleOrDefault();
+
+                ord.progress = 2;
+
+                try
+                {
+                    db.SubmitChanges();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    // Make some adjustments. 
+                    // ... 
+                    // Try again.
+                    db.SubmitChanges();
+                }
+                return RedirectToAction("Index", "Orders");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Orders");
+            }
         }
     }
 }

@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Order Review";
+    var order = (MVCempty.Models.order)ViewData["order"];
+}
+
+<h2>Order Review</h2>
+<ul class="list-group">
+    <li class="list-group-item">Customer: @order.customer.name</li>
+    <li class="list-group-item">Prodcut: @order.product.name</li>
+    <li class="list-group-item">Quantity: @order.quantity</li>
+    <li class="list-group-item">Supplier: @order.supplier.name</li>
+    <li class="list-group-item active">Total:
+        @if (order.currency_id == order.product.currency_id)
+        {
+            WriteLiteral((order.product.price * order.quantity) + " (" + order.currency.name + ")");
+        }
+    </li>
+</ul>
+<a class="btn btn-info" href="javascript:window.print()">print</a> 
+<a class="btn btn-info" href="/Orders/OrderDone/@order.order_id" >Done!</a>
+
+

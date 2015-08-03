@@ -18,9 +18,13 @@
       <Column Name="currency_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="customer_id" Type="System.Int32" DbType="Int" CanBeNull="false" />
+      <Column Name="supplier_id" Type="System.Int32" DbType="Int" CanBeNull="false" />
+      <Column Name="progress" Type="System.Int32" DbType="Int" CanBeNull="false" />
+      <Column Name="store_id" Type="System.Int32" DbType="Int" CanBeNull="false" />
       <Association Name="product_order" Member="product" ThisKey="product_id" OtherKey="product_id" Type="product" IsForeignKey="true" />
       <Association Name="currency_order" Member="currency" ThisKey="currency_id" OtherKey="currency_id" Type="currency" IsForeignKey="true" />
       <Association Name="customer_order" Member="customer" ThisKey="customer_id" OtherKey="customer_id" Type="customer" IsForeignKey="true" />
+      <Association Name="supplier_order" Member="supplier" ThisKey="supplier_id" OtherKey="supplier_id" Type="supplier" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.currencies" Member="currencies">
@@ -70,6 +74,7 @@
     <Type Name="supplier">
       <Column Name="supplier_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="supplier_order" Member="orders" ThisKey="supplier_id" OtherKey="supplier_id" Type="order" />
     </Type>
   </Table>
   <Table Name="dbo.accounts" Member="accounts">

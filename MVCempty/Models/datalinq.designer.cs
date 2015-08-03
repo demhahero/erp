@@ -409,11 +409,19 @@ namespace MVCempty.Models
 		
 		private int _customer_id;
 		
+		private int _supplier_id;
+		
+		private int _progress;
+		
+		private int _store_id;
+		
 		private EntityRef<product> _product;
 		
 		private EntityRef<currency> _currency;
 		
 		private EntityRef<customer> _customer;
+		
+		private EntityRef<supplier> _supplier;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -429,6 +437,12 @@ namespace MVCempty.Models
     partial void OnquantityChanged();
     partial void Oncustomer_idChanging(int value);
     partial void Oncustomer_idChanged();
+    partial void Onsupplier_idChanging(int value);
+    partial void Onsupplier_idChanged();
+    partial void OnprogressChanging(int value);
+    partial void OnprogressChanged();
+    partial void Onstore_idChanging(int value);
+    partial void Onstore_idChanged();
     #endregion
 		
 		public order()
@@ -436,6 +450,7 @@ namespace MVCempty.Models
 			this._product = default(EntityRef<product>);
 			this._currency = default(EntityRef<currency>);
 			this._customer = default(EntityRef<customer>);
+			this._supplier = default(EntityRef<supplier>);
 			OnCreated();
 		}
 		
@@ -551,6 +566,70 @@ namespace MVCempty.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_supplier_id", DbType="Int")]
+		public int supplier_id
+		{
+			get
+			{
+				return this._supplier_id;
+			}
+			set
+			{
+				if ((this._supplier_id != value))
+				{
+					if (this._supplier.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onsupplier_idChanging(value);
+					this.SendPropertyChanging();
+					this._supplier_id = value;
+					this.SendPropertyChanged("supplier_id");
+					this.Onsupplier_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_progress", DbType="Int")]
+		public int progress
+		{
+			get
+			{
+				return this._progress;
+			}
+			set
+			{
+				if ((this._progress != value))
+				{
+					this.OnprogressChanging(value);
+					this.SendPropertyChanging();
+					this._progress = value;
+					this.SendPropertyChanged("progress");
+					this.OnprogressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_store_id", DbType="Int")]
+		public int store_id
+		{
+			get
+			{
+				return this._store_id;
+			}
+			set
+			{
+				if ((this._store_id != value))
+				{
+					this.Onstore_idChanging(value);
+					this.SendPropertyChanging();
+					this._store_id = value;
+					this.SendPropertyChanged("store_id");
+					this.Onstore_idChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="product_order", Storage="_product", ThisKey="product_id", OtherKey="product_id", IsForeignKey=true)]
 		public product product
 		{
@@ -649,6 +728,40 @@ namespace MVCempty.Models
 						this._customer_id = default(int);
 					}
 					this.SendPropertyChanged("customer");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="supplier_order", Storage="_supplier", ThisKey="supplier_id", OtherKey="supplier_id", IsForeignKey=true)]
+		public supplier supplier
+		{
+			get
+			{
+				return this._supplier.Entity;
+			}
+			set
+			{
+				supplier previousValue = this._supplier.Entity;
+				if (((previousValue != value) 
+							|| (this._supplier.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._supplier.Entity = null;
+						previousValue.orders.Remove(this);
+					}
+					this._supplier.Entity = value;
+					if ((value != null))
+					{
+						value.orders.Add(this);
+						this._supplier_id = value.supplier_id;
+					}
+					else
+					{
+						this._supplier_id = default(int);
+					}
+					this.SendPropertyChanged("supplier");
 				}
 			}
 		}
@@ -1522,6 +1635,8 @@ namespace MVCempty.Models
 		
 		private string _name;
 		
+		private EntitySet<order> _orders;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1534,6 +1649,7 @@ namespace MVCempty.Models
 		
 		public supplier()
 		{
+			this._orders = new EntitySet<order>(new Action<order>(this.attach_orders), new Action<order>(this.detach_orders));
 			OnCreated();
 		}
 		
@@ -1577,6 +1693,19 @@ namespace MVCempty.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="supplier_order", Storage="_orders", ThisKey="supplier_id", OtherKey="supplier_id")]
+		public EntitySet<order> orders
+		{
+			get
+			{
+				return this._orders;
+			}
+			set
+			{
+				this._orders.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -1595,6 +1724,18 @@ namespace MVCempty.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_orders(order entity)
+		{
+			this.SendPropertyChanging();
+			entity.supplier = this;
+		}
+		
+		private void detach_orders(order entity)
+		{
+			this.SendPropertyChanging();
+			entity.supplier = null;
 		}
 	}
 	

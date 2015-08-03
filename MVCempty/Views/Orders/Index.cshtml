@@ -10,6 +10,7 @@
     <tr>
         <td>Name</td>
         <td>Quantity</td>
+        <td>Progress</td>
         <td>Delete</td>
     </tr>
     @if (Model != null)
@@ -17,8 +18,22 @@
         foreach (MVCempty.Models.order ord in Model)
         {
             <tr>
-                <td><a href="/Orders/EditOrder/@ord.order_id">@ord.product.name</a></td>
-                <td style="text-align:center;">@ord.quantity</td>
+                <td style="width:40%;"><a href="/Orders/EditOrder/@ord.order_id">@ord.product.name</a></td>
+                <td style="width:30%; text-align:center;">@ord.quantity</td>
+                <td style="text-align:center;">
+                    @if (ord.progress == 0)
+                    {
+                        WriteLiteral("<a class=\"btn btn-info\" href=\"/Orders/ProductShipped/" + ord.order_id + "\">Product Shipped</a>");
+                    }
+                    else if (ord.progress == 1)
+                    {
+                        WriteLiteral("<a class=\"btn btn-info\" href=\"/Orders/PriceList/" + ord.order_id + "\">Price List</a>");
+                    }
+                    else if (ord.progress == 2)
+                    {
+                        WriteLiteral("Done!");
+                    }
+                </td>
                 <td style="text-align:center;"><a href="/Orders/DeleteOrder/@ord.order_id">Delete</a></td>
             </tr>
         }
